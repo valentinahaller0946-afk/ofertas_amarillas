@@ -1,0 +1,12 @@
+{
+  "name": "ofertas-amarillas",
+  "version": "1.0.0",
+  "description": "Web de ofertas de MercadoLibre - Ofertas Amarillas",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  },
+  "keywords": ["mercadolibre", "ofertas", "afiliados"],
+  "author": "",
+  "license": "MIT"
+}

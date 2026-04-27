@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ofertas Amarillas — Las mejores ofertas para tu hogar</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --y:#FFD600;--yd:#F0C800;--yk:#1A1500;
+  --bg:#F7F6F0;--card:#fff;
+  --r:14px;--font:'DM Sans',system-ui,sans-serif;
+  --ml-blue:#3483FA;--ml-green:#00A650;
+  --shadow:0 2px 12px rgba(0,0,0,.07);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smoothing:antialiased}
+
+/* ── NAV ── */
+.nav{background:var(--y);position:sticky;top:0;z-index:200;border-bottom:2px solid var(--yd)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;gap:16px}
+.logo{font-size:18px;font-weight:800;color:#000;letter-spacing:-0.5px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:6px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:#000;opacity:.25}
+.search-wrap{flex:1;max-width:520px;position:relative}
+.search-wrap input{width:100%;padding:9px 14px 9px 38px;border-radius:8px;border:2px solid rgba(0,0,0,.1);background:rgba(255,255,255,.65);font-family:var(--font);font-size:14px;color:#111;outline:none;transition:all .2s}
+.search-wrap input::placeholder{color:#999}
+.search-wrap input:focus{background:#fff;border-color:rgba(0,0,0,.3)}
+.s-ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none}
+.s-ic svg{width:16px;height:16px;fill:none;stroke:#000;stroke-width:2;stroke-linecap:round}
+.nav-links{margin-left:auto;display:flex;gap:2px}
+.nav-links a{font-size:13px;font-weight:600;color:#000;text-decoration:none;padding:6px 12px;border-radius:7px;transition:background .15s}
+.nav-links a:hover{background:rgba(0,0,0,.08)}
+
+/* ── HERO ── */
+.hero{background:var(--y);padding:60px 24px 72px;border-bottom:2px solid var(--yd)}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.07);color:rgba(0,0,0,.65);font-size:12px;font-weight:600;padding:5px 13px;border-radius:20px;margin-bottom:18px;letter-spacing:.2px}
+.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#000;opacity:.4}
+.hero h1{font-size:clamp(28px,3.5vw,44px);font-weight:800;color:#000;line-height:1.12;letter-spacing:-1px;margin-bottom:16px}
+.hero p{font-size:15px;color:rgba(0,0,0,.55);line-height:1.7;margin-bottom:30px;max-width:460px}
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.btn-p{background:#000;color:var(--y);font-family:var(--font);font-size:14px;font-weight:700;padding:13px 26px;border-radius:8px;border:none;cursor:pointer;text-decoration:none;transition:background .15s,transform .1s;display:inline-block;letter-spacing:.1px}
+.btn-p:hover{background:#1a1a1a;transform:translateY(-1px)}
+.btn-p:active{transform:translateY(0)}
+.btn-s{background:rgba(0,0,0,.08);color:#000;font-family:var(--font);font-size:14px;font-weight:600;padding:13px 22px;border-radius:8px;border:none;cursor:pointer;text-decoration:none;transition:background .15s;display:inline-block}
+.btn-s:hover{background:rgba(0,0,0,.14)}
+.hero-chips{display:flex;gap:12px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(0,0,0,.55);font-weight:500}
+.chip-ic{width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.09);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+
+.hero-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero-mini{background:#fff;border-radius:13px;padding:16px;border:1.5px solid rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;cursor:pointer}
+.hero-mini:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.hero-mini .em{font-size:30px;margin-bottom:10px;display:block}
+.hero-mini .disc{display:inline-block;background:#000;color:var(--y);font-size:11px;font-weight:700;padding:3px 7px;border-radius:5px;margin-bottom:6px}
+.hero-mini .nm{font-size:11px;color:#888;line-height:1.35}
+.hero-mini .pr{font-size:17px;font-weight:800;color:#111;margin-top:5px}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:#fff;border-bottom:1px solid #EAEAE8}
+.trust-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.ti{display:flex;align-items:center;gap:10px;padding:14px 20px;border-right:1px solid #F0F0EE}
+.ti:last-child{border-right:none}
+.ti-ic{width:32px;height:32px;border-radius:9px;background:var(--y);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ti-text p{font-size:12px;font-weight:700;color:#111}
+.ti-text span{font-size:11px;color:#AAA}
+
+/* ── SECTIONS ── */
+.section{max-width:1200px;margin:0 auto;padding:48px 24px 0}
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.sec-h h2{font-size:19px;font-weight:800;color:#111;letter-spacing:-.3px}
+.sec-h a{font-size:13px;color:#999;text-decoration:none;font-weight:600;transition:color .15s}
+.sec-h a:hover{color:#555}
+
+/* ── CATEGORY PILLS ── */
+.cats-row{display:flex;gap:8px;flex-wrap:wrap}
+.cat-pill{background:#fff;border:1.5px solid #E8E8E4;border-radius:20px;padding:8px 15px;font-size:12px;font-weight:600;color:#555;cursor:pointer;white-space:nowrap;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+.cat-pill:hover{border-color:var(--yd);background:#FFFDE0}
+.cat-pill.active{background:var(--y);border-color:var(--y);color:#000}
+
+/* ── PRODUCT GRID ── */
+.products-section{max-width:1200px;margin:0 auto;padding:32px 24px 52px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+
+.pc{background:#fff;border:1.5px solid #EAEAE8;border-radius:var(--r);overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s;text-decoration:none;display:block;position:relative}
+.pc:hover{border-color:var(--yd);transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.pc:hover .pc-cta{background:var(--yd)}
+
+.pc-img{width:100%;aspect-ratio:1;background:#F7F7F5;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;overflow:hidden}
+.disc-b{position:absolute;top:10px;left:10px;background:var(--y);color:#000;font-size:12px;font-weight:800;padding:4px 9px;border-radius:6px;letter-spacing:.2px}
+.free-pill{position:absolute;bottom:10px;left:10px;background:#E6F7EE;color:var(--ml-green);font-size:10px;font-weight:700;padding:3px 7px;border-radius:5px}
+
+.pc-body{padding:14px}
+.ml-row{display:flex;align-items:center;gap:5px;margin-bottom:6px}
+.ml-logo{font-size:11px;color:var(--ml-blue);font-weight:700}
+.ml-sep{color:#DDD;font-size:10px;margin:0 1px}
+.ml-cat{font-size:10px;color:#BBB}
+.pc-title{font-size:13px;color:#333;line-height:1.45;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+.prices{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.price-curr{font-size:22px;font-weight:800;color:#111;letter-spacing:-.5px}
+.price-orig{font-size:12px;color:#C8C8C8;text-decoration:line-through}
+.savings-row{margin-bottom:13px}
+.save-tag{display:inline-block;background:#E6F7EE;color:var(--ml-green);font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px}
+.pc-cta{display:block;background:var(--y);color:#000;text-align:center;font-family:var(--font);font-size:13px;font-weight:700;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .15s;width:100%;letter-spacing:.1px}
+
+/* expired */
+.pc.expired{opacity:.75}
+.pc.expired .pc-img{filter:grayscale(.7)}
+.pc.expired .pc-cta{background:#F0F0EE;color:#AAA;cursor:not-allowed}
+.pc.expired .price-curr{color:#BBB}
+.exp-badge{position:absolute;top:10px;left:10px;background:#FF3B30;color:#fff;font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px}
+
+/* skeleton loading */
+@keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+.skeleton .pc-img{background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:600px 100%;animation:shimmer 1.5s infinite}
+.skeleton .pc-body>div{height:12px;border-radius:4px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:600px 100%;animation:shimmer 1.5s infinite;margin-bottom:8px}
+.skeleton .pc-body>div:first-child{width:60%}
+.skeleton .pc-body>div:nth-child(2){width:100%;height:30px}
+.skeleton .pc-body>div:nth-child(3){width:45%}
+
+/* ── EMPTY STATE ── */
+.empty-box{background:#fff;border:1.5px dashed #E0E0DC;border-radius:var(--r);padding:60px 24px;text-align:center;max-width:1200px;margin:0 auto 52px}
+.empty-box h3{font-size:16px;font-weight:700;color:#555;margin-bottom:6px}
+.empty-box p{font-size:13px;color:#BBB;margin-bottom:22px;line-height:1.6}
+
+/* ── HOW ── */
+.how-section{background:var(--y);padding:56px 24px;border-top:2px solid var(--yd);border-bottom:2px solid var(--yd)}
+.how-inner{max-width:1200px;margin:0 auto}
+.how-inner h2{font-size:22px;font-weight:800;color:#000;margin-bottom:32px;letter-spacing:-.4px}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.how-step{background:rgba(255,255,255,.5);border-radius:13px;padding:22px;border:1.5px solid rgba(0,0,0,.07);transition:background .2s}
+.how-step:hover{background:rgba(255,255,255,.75)}
+.how-num{width:38px;height:38px;border-radius:50%;background:#000;color:var(--y);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.how-step h3{font-size:14px;font-weight:700;color:#000;margin-bottom:6px}
+.how-step p{font-size:13px;color:rgba(0,0,0,.5);line-height:1.6}
+
+/* ── SOCIAL PROOF ── */
+.sp-section{max-width:1200px;margin:0 auto;padding:48px 24px}
+.sp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.sp-card{background:#fff;border:1.5px solid #EAEAE8;border-radius:var(--r);padding:24px;text-align:center;transition:border-color .2s}
+.sp-card:hover{border-color:var(--yd)}
+.sp-num{font-size:28px;font-weight:800;color:#111;display:block;letter-spacing:-1px}
+.sp-num.tbd{color:#DDD;font-weight:300;font-size:22px;letter-spacing:0}
+.sp-label{font-size:12px;color:#AAA;margin-top:4px;font-weight:500}
+
+/* ── FOOTER ── */
+.footer{background:#111;padding:44px 24px 24px;margin-top:0}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:32px;flex-wrap:wrap;margin-bottom:32px}
+.footer-logo{font-size:17px;font-weight:800;color:var(--y);text-decoration:none;letter-spacing:-.3px}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.footer-links a{color:#666;font-size:13px;text-decoration:none;font-weight:500;transition:color .15s}
+.footer-links a:hover{color:#ccc}
+.footer-disclaimer{font-size:11px;color:#3a3a3a;line-height:1.8;border-top:1px solid #222;padding-top:20px}
+
+/* ── ADMIN PANEL ── */
+.admin-section{background:#F0EFE9;border-top:2px solid #E8E7E0;padding:48px 24px}
+.admin-inner{max-width:1200px;margin:0 auto}
+.admin-header{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.admin-tag{background:var(--y);color:#000;font-size:11px;font-weight:700;padding:4px 11px;border-radius:12px;text-transform:uppercase;letter-spacing:.5px}
+.admin-title-text{font-size:16px;font-weight:700;color:#111}
+.admin-card{background:#fff;border:1.5px solid #E8E8E4;border-radius:var(--r);padding:28px}
+.admin-card h3{font-size:15px;font-weight:700;margin-bottom:4px;color:#111}
+.admin-card>p{font-size:13px;color:#AAA;margin-bottom:24px;line-height:1.5}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg select{padding:10px 13px;border-radius:8px;border:1.5px solid #E8E8E4;font-family:var(--font);font-size:14px;background:#fff;color:#111;outline:none;transition:border-color .15s}
+.fg input:focus,.fg select:focus{border-color:var(--y)}
+.fg input::placeholder{color:#CCC}
+.form-actions{margin-top:20px;display:flex;gap:10px;align-items:center}
+.form-hint{font-size:12px;color:#CCC;margin-left:4px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;gap:32px}
+  .hero-cards{display:grid;grid-template-columns:1fr 1fr}
+  .trust-inner{grid-template-columns:1fr 1fr}
+  .ti{border-right:none;border-bottom:1px solid #F0F0EE}
+  .form-grid{grid-template-columns:1fr}
+  .fg.full{grid-column:1}
+  .nav-links{display:none}
+}
+@media(max-width:480px){
+  .hero{padding:40px 16px 52px}
+  .hero h1{font-size:26px}
+  .hero-cards{grid-template-columns:1fr 1fr;gap:8px}
+  .hero-mini{padding:12px}
+  .trust-inner{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:1fr 1fr}
+  .price-curr{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      Ofertas<div class="logo-dot"></div>Amarillas
+    </a>
+    <div class="search-wrap">
+      <span class="s-ic">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      </span>
+      <input type="text" placeholder="Buscar productos en MercadoLibre..." id="search-input">
+    </div>
+    <nav class="nav-links">
+      <a href="#">Inicio</a>
+      <a href="#categorias">Categorías</a>
+      <a href="#como-funciona">¿Cómo funciona?</a>
+    </nav>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        Ofertas verificadas de MercadoLibre
+      </div>
+      <h1>Las mejores ofertas para tu hogar, listas para comprar</h1>
+      <p>Seleccionamos, comparamos y te mostramos ofertas reales para que ahorres tiempo y dinero.</p>
+      <div class="hero-ctas">
+        <a href="#productos" class="btn-p">Explorar productos</a>
+        <a href="#como-funciona" class="btn-s">¿Cómo funciona?</a>
+      </div>
+      <div class="hero-chips">
+        <span class="chip"><span class="chip-ic">✓</span> Sin precios inflados</span>
+        <span class="chip"><span class="chip-ic">↻</span> Actualización diaria</span>
+        <span class="chip"><span class="chip-ic">🔗</span> Links directos y seguros</span>
+      </div>
+    </div>
+    <div class="hero-cards">
+      <div class="hero-mini"><span class="em">🧹</span><div class="disc">-42%</div><div class="nm">Robot aspirador WiFi</div><div class="pr">$89.990</div></div>
+      <div class="hero-mini"><span class="em">☕</span><div class="disc">-35%</div><div class="nm">Cafetera automática</div><div class="pr">$49.990</div></div>
+      <div class="hero-mini"><span class="em">💡</span><div class="disc">-50%</div><div class="nm">Kit LED inteligente</div><div class="pr">$22.500</div></div>
+      <div class="hero-mini"><span class="em">🛁</span><div class="disc">-28%</div><div class="nm">Organizador baño</div><div class="pr">$14.200</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRUST BAR ══ -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="ti"><div class="ti-ic">✓</div><div class="ti-text"><p>Ofertas reales</p><span>Sin inflado de precios</span></div></div>
+    <div class="ti"><div class="ti-ic">★</div><div class="ti-text"><p>Con reviews</p><span>Seleccionados por calidad</span></div></div>
+    <div class="ti"><div class="ti-ic">↻</div><div class="ti-text"><p>Actualización diaria</p><span>Precios al momento</span></div></div>
+    <div class="ti"><div class="ti-ic">🔒</div><div class="ti-text"><p>Links seguros</p><span>Directo a MercadoLibre</span></div></div>
+  </div>
+</div>
+
+<!-- ══ CATEGORÍAS ══ -->
+<div class="section" id="categorias">
+  <div class="sec-h"><h2>Categorías</h2><a href="#">Ver todas →</a></div>
+  <div class="cats-row" id="cats-row">
+    <a href="#" class="cat-pill active" data-cat="all">Todo</a>
+    <a href="#" class="cat-pill" data-cat="hogar">🏠 Hogar</a>
+    <a href="#" class="cat-pill" data-cat="cuidado-personal">💆 Cuidado personal</a>
+    <a href="#" class="cat-pill" data-cat="tecnologia">📱 Tecnología</a>
+    <a href="#" class="cat-pill" data-cat="indumentaria">👕 Indumentaria</a>
+    <a href="#" class="cat-pill" data-cat="deporte">🏃 Deporte</a>
+    <a href="#" class="cat-pill" data-cat="electrodomesticos">🔌 Electrodomésticos</a>
+  </div>
+</div>
+
+<!-- ══ PRODUCTS ══ -->
+<div class="products-section" id="productos">
+  <div class="sec-h"><h2>Ofertas destacadas</h2><a href="#">Ver todas →</a></div>
+  <div class="pgrid" id="product-grid">
+
+    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="hogar">
+      <div class="pc-img">🏠<div class="disc-b">-38%</div><div class="free-pill">Envío gratis</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Hogar</span></div>
+        <div class="pc-title">Robot aspirador con mapeo láser y app WiFi</div>
+        <div class="prices"><span class="price-curr">$89.990</span><span class="price-orig">$144.990</span></div>
+        <div class="savings-row"><span class="save-tag">Ahorrás $55.000</span></div>
+        <button class="pc-cta">Ver oferta en MercadoLibre</button>
+      </div>
+    </a>
+
+    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="cuidado-personal">
+      <div class="pc-img">💆<div class="disc-b">-42%</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Cuidado personal</span></div>
+        <div class="pc-title">Depiladora eléctrica inalámbrica resistente al agua</div>
+        <div class="prices"><span class="price-curr">$28.500</span><span class="price-orig">$49.100</span></div>
+        <div class="savings-row"><span class="save-tag">Ahorrás $20.600</span></div>
+        <button class="pc-cta">Ver oferta en MercadoLibre</button>
+      </div>
+    </a>
+
+    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="tecnologia">
+      <div class="pc-img">📱<div class="disc-b">-45%</div><div class="free-pill">Envío gratis</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Tecnología</span></div>
+        <div class="pc-title">Auriculares inalámbricos con cancelación de ruido activa</div>
+        <div class="prices"><span class="price-curr">$36.400</span><span class="price-orig">$66.200</span></div>
+        <div class="savings-row"><span class="save-tag">Ahorrás $29.800</span></div>
+        <button class="pc-cta">Ver oferta en MercadoLibre</button>
+      </div>
+    </a>
+
+    <a href="#" class="pc expired" data-cat="indumentaria">
+      <div class="pc-img">👕<div class="exp-badge">Expirada</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Indumentaria</span></div>
+        <div class="pc-title">Campera impermeable unisex con capucha desmontable</div>
+        <div class="prices"><span class="price-curr">$42.000</span><span class="price-orig">$68.000</span></div>
+        <div class="savings-row"><span style="font-size:11px;color:#CCC">Esta oferta ya no está disponible</span></div>
+        <button class="pc-cta" disabled>No disponible</button>
+      </div>
+    </a>
+
+    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="deporte">
+      <div class="pc-img">🏃<div class="disc-b">-35%</div><div class="free-pill">Envío gratis</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Deporte</span></div>
+        <div class="pc-title">Bicicleta fija spinning volante 18kg pantalla LCD</div>
+        <div class="prices"><span class="price-curr">$184.990</span><span class="price-orig">$284.600</span></div>
+        <div class="savings-row"><span class="save-tag">Ahorrás $99.610</span></div>
+        <button class="pc-cta">Ver oferta en MercadoLibre</button>
+      </div>
+    </a>
+
+    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="electrodomesticos">
+      <div class="pc-img">🔌<div class="disc-b">-40%</div><div class="free-pill">Envío gratis</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Electrodomésticos</span></div>
+        <div class="pc-title">Freidora de aire digital 5.5L pantalla touch sin aceite</div>
+        <div class="prices"><span class="price-curr">$62.990</span><span class="price-orig">$104.900</span></div>
+        <div class="savings-row"><span class="save-tag">Ahorrás $41.910</span></div>
+        <button class="pc-cta">Ver oferta en MercadoLibre</button>
+      </div>
+    </a>
+
+    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="cuidado-personal">
+      <div class="pc-img">💇<div class="disc-b">-30%</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Cuidado personal</span></div>
+        <div class="pc-title">Secador de cabello iónico 2200W difusor y concentrador</div>
+        <div class="prices"><span class="price-curr">$34.900</span><span class="price-orig">$49.900</span></div>
+        <div class="savings-row"><span class="save-tag">Ahorrás $15.000</span></div>
+        <button class="pc-cta">Ver oferta en MercadoLibre</button>
+      </div>
+    </a>
+
+    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="indumentaria">
+      <div class="pc-img">👟<div class="disc-b">-28%</div></div>
+      <div class="pc-body">
+        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Indumentaria</span></div>
+        <div class="pc-title">Zapatillas running hombre suela amortiguada talle 38-46</div>
+        <div class="prices"><span class="price-curr">$54.900</span><span class="price-orig">$76.300</span></div>
+        <div class="savings-row"><span class="save-tag">Ahorrás $21.400</span></div>
+        <button class="pc-cta">Ver oferta en MercadoLibre</button>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- EMPTY STATE (hidden by default) -->
+  <div id="empty-state" style="display:none" class="empty-box" style="margin:0 0 52px">
+    <div style="font-size:40px;margin-bottom:14px">📭</div>
+    <h3>Sin ofertas en esta categoría por el momento</h3>
+    <p>Volvé pronto — actualizamos todos los días con nuevas ofertas de MercadoLibre.</p>
+    <a href="#" class="btn-p" onclick="resetCat(event)">Ver todas las categorías</a>
+  </div>
+</div>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="how-section" id="como-funciona">
+  <div class="how-inner">
+    <h2>¿Cómo funciona?</h2>
+    <div class="how-steps">
+      <div class="how-step"><div class="how-num">1</div><h3>Curamos las ofertas</h3><p>Revisamos precios históricos y publicamos solo descuentos reales, sin inflado previo.</p></div>
+      <div class="how-step"><div class="how-num">2</div><h3>Verificamos los productos</h3><p>Seleccionamos productos con buenas reviews y vendedores confiables de MercadoLibre.</p></div>
+      <div class="how-step"><div class="how-num">3</div><h3>Vos comprás en ML</h3><p>Al hacer clic, te llevamos directo a MercadoLibre. Sin intermediarios, sin sorpresas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SOCIAL PROOF ══ -->
+<div class="sp-section">
+  <div class="sec-h" style="margin-bottom:20px"><h2>Números que importan</h2></div>
+  <div class="sp-grid">
+    <div class="sp-card"><span class="sp-num tbd">—</span><span class="sp-label">Productos publicados</span></div>
+    <div class="sp-card"><span class="sp-num tbd">—</span><span class="sp-label">Visitas por mes</span></div>
+    <div class="sp-card"><span class="sp-num tbd">—</span><span class="sp-label">Ahorro promedio</span></div>
+    <div class="sp-card"><span class="sp-num tbd">—</span><span class="sp-label">Categorías activas</span></div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <a href="#" class="footer-logo">Ofertas / Amarillas</a>
+      <div class="footer-links">
+        <a href="#">Inicio</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#como-funciona">¿Cómo funciona?</a>
+        <a href="#">Contacto</a>
+        <a href="#">Instagram</a>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+    <p class="footer-disclaimer">
+      Este sitio participa en programas de afiliados de MercadoLibre. Al hacer clic en algunos links podemos recibir una comisión sin ningún costo adicional para vos. Los precios y disponibilidad son obtenidos directamente de MercadoLibre y pueden cambiar sin previo aviso. Siempre verificá el precio final antes de comprar. © 2025 Ofertas Amarillas.
+    </p>
+  </div>
+</footer>
+
+<!-- ══ ADMIN PANEL ══ -->
+<div class="admin-section" id="admin">
+  <div class="admin-inner">
+    <div class="admin-header">
+      <span class="admin-tag">Admin</span>
+      <span class="admin-title-text">Subir nuevo producto</span>
+    </div>
+    <div class="admin-card">
+      <h3>Agregar oferta de MercadoLibre</h3>
+      <p>Pegá el link del producto — imagen, precio y descuento se importan automáticamente desde ML.</p>
+      <div class="form-grid">
+        <div class="fg full">
+          <label>Link de MercadoLibre *</label>
+          <input type="url" id="ml-link" placeholder="https://www.mercadolibre.com.ar/producto-...">
+        </div>
+        <div class="fg full">
+          <label>Título personalizado (opcional)</label>
+          <input type="text" id="ml-title" placeholder="Se usa el título original de ML si lo dejás vacío">
+        </div>
+        <div class="fg">
+          <label>Categoría *</label>
+          <select id="ml-cat">
+            <option value="">Seleccioná una categoría</option>
+            <option value="hogar">Hogar</option>
+            <option value="cuidado-personal">Cuidado personal</option>
+            <option value="tecnologia">Tecnología</option>
+            <option value="indumentaria">Indumentaria</option>
+            <option value="deporte">Deporte</option>
+            <option value="electrodomesticos">Electrodomésticos</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Estado inicial</label>
+          <select id="ml-status">
+            <option value="active">Activo</option>
+            <option value="expired">Expirado</option>
+            <option value="disabled">Desactivado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-p" onclick="handleSubmit()">Publicar producto</button>
+        <button class="btn-s" onclick="clearForm()">Limpiar</button>
+        <span class="form-hint" id="form-feedback"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Category filter ──
+document.querySelectorAll('.cat-pill').forEach(pill => {
+  pill.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    const cat = this.dataset.cat;
+    filterProducts(cat);
+  });
+});
+
+function filterProducts(cat) {
+  const cards = document.querySelectorAll('#product-grid .pc');
+  let visible = 0;
+  cards.forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.style.display = 'block';
+      visible++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  document.getElementById('empty-state').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function resetCat(e) {
+  e.preventDefault();
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector('[data-cat="all"]').classList.add('active');
+  filterProducts('all');
+}
+
+// ── Search filter ──
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  if (!q) { filterProducts('all'); return; }
+  document.querySelectorAll('#product-grid .pc').forEach(card => {
+    const title = card.querySelector('.pc-title').textContent.toLowerCase();
+    card.style.display = title.includes(q) ? 'block' : 'none';
+  });
+});
+
+// ── Admin form ──
+function handleSubmit() {
+  const link = document.getElementById('ml-link').value.trim();
+  const cat = document.getElementById('ml-cat').value;
+  const fb = document.getElementById('form-feedback');
+  if (!link) { fb.textContent = '⚠ Ingresá el link de MercadoLibre'; fb.style.color = '#FF3B30'; return; }
+  if (!cat) { fb.textContent = '⚠ Seleccioná una categoría'; fb.style.color = '#FF3B30'; return; }
+  fb.textContent = '✓ Producto enviado para importar desde ML';
+  fb.style.color = '#00A650';
+  setTimeout(() => { fb.textContent = ''; clearForm(); }, 3000);
+}
+
+function clearForm() {
+  document.getElementById('ml-link').value = '';
+  document.getElementById('ml-title').value = '';
+  document.getElementById('ml-cat').value = '';
+  document.getElementById('ml-status').value = 'active';
+  document.getElementById('form-feedback').textContent = '';
+}
+</script>
+</body>
+</html>
