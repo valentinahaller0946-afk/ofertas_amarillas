@@ -6,7 +6,16 @@
     "dev": "npx serve .",
     "start": "npx serve ."
   },
-  "keywords": ["mercadolibre", "ofertas", "afiliados"],
+  "keywords": [
+    "mercadolibre",
+    "ofertas",
+    "afiliados"
+  ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
+  }
 }

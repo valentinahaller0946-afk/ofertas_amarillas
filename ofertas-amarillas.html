@@ -173,6 +173,59 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
 .form-actions{margin-top:20px;display:flex;gap:10px;align-items:center}
 .form-hint{font-size:12px;color:#CCC;margin-left:4px}
 
+/* ── ML LINK IMPORTER ── */
+.ml-importer{background:#fff;border:1.5px solid #E8E8E4;border-radius:var(--r);padding:28px;margin-top:24px}
+.ml-importer h3{font-size:15px;font-weight:700;margin-bottom:4px;color:#111}
+.ml-importer>p{font-size:13px;color:#AAA;margin-bottom:20px;line-height:1.5}
+.ml-input-wrap{display:flex;gap:10px;margin-bottom:16px}
+.ml-input-wrap input{flex:1;padding:12px 15px;border-radius:8px;border:2px solid #E8E8E4;font-family:var(--font);font-size:14px;background:#fff;color:#111;outline:none;transition:border-color .15s}
+.ml-input-wrap input:focus{border-color:var(--ml-blue)}
+.ml-input-wrap input::placeholder{color:#CCC}
+.ml-btn{background:var(--ml-blue);color:#fff;font-family:var(--font);font-size:14px;font-weight:600;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;transition:background .15s}
+.ml-btn:hover{background:#2968c8}
+.ml-btn:disabled{background:#CCC;cursor:not-allowed}
+.ml-preview{background:#F7F6F0;border-radius:10px;padding:20px;margin-top:16px;display:none}
+.ml-preview.active{display:block}
+.ml-preview-header{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
+.ml-preview-img{width:100px;height:100px;border-radius:8px;object-fit:cover;background:#fff;border:1px solid #E8E8E4}
+.ml-preview-info{flex:1}
+.ml-preview-title{font-size:14px;font-weight:700;color:#111;margin-bottom:8px;line-height:1.4}
+.ml-preview-prices{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ml-preview-current{font-size:22px;font-weight:800;color:#111}
+.ml-preview-original{font-size:14px;color:#999;text-decoration:line-through}
+.ml-preview-discount{background:var(--ml-green);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px}
+.ml-preview-meta{font-size:12px;color:#888;margin-top:8px}
+.ml-preview-actions{display:flex;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid #E8E8E4}
+.ml-btn-save{background:var(--y);color:#000;font-family:var(--font);font-size:14px;font-weight:700;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;transition:background .15s}
+.ml-btn-save:hover{background:var(--yd)}
+.ml-btn-cancel{background:#F0F0F0;color:#555;font-family:var(--font);font-size:14px;font-weight:600;padding:12px 24px;border-radius:8px;border:none;cursor:pointer}
+.ml-error{background:#FFF0F0;border:1px solid #FFCDD2;border-radius:8px;padding:14px 18px;color:#C62828;font-size:13px;margin-top:16px;display:none}
+.ml-error.active{display:block}
+.ml-loading{text-align:center;padding:30px;color:#888;font-size:13px}
+.ml-loading::after{content:'';display:inline-block;width:16px;height:16px;border:2px solid #E8E8E4;border-top-color:var(--ml-blue);border-radius:50%;animation:spin .8s linear infinite;margin-left:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── VERIFICADOR ── */
+.verificador-section{background:#fff;border:1.5px solid #E8E8E4;border-radius:var(--r);padding:28px;margin-top:24px}
+.verificador-section h3{font-size:15px;font-weight:700;margin-bottom:4px;color:#111}
+.verificador-section>p{font-size:13px;color:#AAA;margin-bottom:20px;line-height:1.5}
+.verif-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:20px}
+.verif-item{background:#F7F6F0;border-radius:10px;padding:16px;border:1px solid #E8E8E4}
+.verif-item-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.verif-item-title{font-size:13px;font-weight:600;color:#111;flex:1;margin-right:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.verif-status{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px}
+.verif-status.ok{background:#E6F7EE;color:#2E7D32}
+.verif-status.changed{background:#FFF3E0;color:#E65100}
+.verif-status.offline{background:#FFEBEE;color:#C62828}
+.verif-item-prices{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.verif-old-price{font-size:13px;color:#999;text-decoration:line-through}
+.verif-arrow{color:#888;font-size:12px}
+.verif-new-price{font-size:16px;font-weight:700;color:#111}
+.verif-item-actions{display:flex;gap:8px;margin-top:12px}
+.verif-btn{font-size:12px;font-weight:600;padding:8px 14px;border-radius:6px;border:none;cursor:pointer}
+.verif-btn-actualizar{background:var(--y);color:#000}
+.verif-btn-eliminar{background:#FFEBEE;color:#C62828}
+
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
   .hero-inner{grid-template-columns:1fr;gap:32px}
@@ -421,51 +474,74 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
   <div class="admin-inner">
     <div class="admin-header">
       <span class="admin-tag">Admin</span>
-      <span class="admin-title-text">Subir nuevo producto</span>
+      <span class="admin-title-text">Importar productos de MercadoLibre</span>
     </div>
-    <div class="admin-card">
-      <h3>Agregar oferta de MercadoLibre</h3>
-      <p>Pegá el link del producto — imagen, precio y descuento se importan automáticamente desde ML.</p>
-      <div class="form-grid">
-        <div class="fg full">
-          <label>Link de MercadoLibre *</label>
-          <input type="url" id="ml-link" placeholder="https://www.mercadolibre.com.ar/producto-...">
+    
+    <!-- Importador de ML -->
+    <div class="ml-importer">
+      <h3>Agregar producto desde MercadoLibre</h3>
+      <p>Pegá el link del producto — el título, precio, imagen y descuento se importan automáticamente.</p>
+      
+      <div class="ml-input-wrap">
+        <input type="url" id="ml-link-input" placeholder="https://www.mercadolibre.com.ar/..." onpaste="setTimeout(()=>fetchMLProduct(),10)">
+        <button class="ml-btn" id="ml-fetch-btn" onclick="fetchMLProduct()">Importar</button>
+      </div>
+      
+      <div class="ml-loading" id="ml-loading" style="display:none">Buscando producto en MercadoLibre...</div>
+      
+      <div class="ml-error" id="ml-error"></div>
+      
+      <div class="ml-preview" id="ml-preview">
+        <div class="ml-preview-header">
+          <img class="ml-preview-img" id="ml-preview-img" src="" alt="Producto">
+          <div class="ml-preview-info">
+            <div class="ml-preview-title" id="ml-preview-title"></div>
+            <div class="ml-preview-prices">
+              <span class="ml-preview-current" id="ml-preview-current"></span>
+              <span class="ml-preview-original" id="ml-preview-original"></span>
+              <span class="ml-preview-discount" id="ml-preview-discount"></span>
+            </div>
+            <div class="ml-preview-meta" id="ml-preview-meta"></div>
+          </div>
         </div>
-        <div class="fg full">
-          <label>Título personalizado (opcional)</label>
-          <input type="text" id="ml-title" placeholder="Se usa el título original de ML si lo dejás vacío">
+        <div class="form-grid" style="margin-top:16px">
+          <div class="fg">
+            <label>Categoría *</label>
+            <select id="ml-cat">
+              <option value="">Seleccioná una categoría</option>
+              <option value="hogar">🏠 Hogar</option>
+              <option value="cuidado-personal">💆 Cuidado personal</option>
+              <option value="tecnologia">📱 Tecnología</option>
+              <option value="indumentaria">👕 Indumentaria</option>
+              <option value="deporte">🏃 Deporte</option>
+              <option value="electrodomesticos">🔌 Electrodomésticos</option>
+            </select>
+          </div>
         </div>
-        <div class="fg">
-          <label>Categoría *</label>
-          <select id="ml-cat">
-            <option value="">Seleccioná una categoría</option>
-            <option value="hogar">Hogar</option>
-            <option value="cuidado-personal">Cuidado personal</option>
-            <option value="tecnologia">Tecnología</option>
-            <option value="indumentaria">Indumentaria</option>
-            <option value="deporte">Deporte</option>
-            <option value="electrodomesticos">Electrodomésticos</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Estado inicial</label>
-          <select id="ml-status">
-            <option value="active">Activo</option>
-            <option value="expired">Expirado</option>
-            <option value="disabled">Desactivado</option>
-          </select>
+        <div class="ml-preview-actions">
+          <button class="ml-btn-save" onclick="saveMLProduct()">Guardar producto</button>
+          <button class="ml-btn-cancel" onclick="cancelMLPreview()">Cancelar</button>
         </div>
       </div>
-      <div class="form-actions">
-        <button class="btn-p" onclick="handleSubmit()">Publicar producto</button>
-        <button class="btn-s" onclick="clearForm()">Limpiar</button>
-        <span class="form-hint" id="form-feedback"></span>
+    </div>
+    
+    <!-- Verificador de productos -->
+    <div class="verificador-section">
+      <h3>🔄 Verificador de productos</h3>
+      <p>Verificá si los productos siguen vigentes y si el precio ha cambiado.</p>
+      <div style="margin-top:16px">
+        <button class="btn-p" onclick="verificarTodos()">Verificar todos los productos</button>
+        <button class="btn-s" onclick="verificarSoloCambios()">Solo productos con cambios</button>
       </div>
+      <div class="verif-grid" id="verif-grid"></div>
     </div>
   </div>
 </div>
 
 <script>
+const API_URL = 'http://localhost:3001/api';
+let currentMLProduct = null;
+
 // ── Category filter ──
 document.querySelectorAll('.cat-pill').forEach(pill => {
   pill.addEventListener('click', function(e) {
@@ -508,25 +584,368 @@ document.getElementById('search-input').addEventListener('input', function() {
   });
 });
 
-// ── Admin form ──
-function handleSubmit() {
-  const link = document.getElementById('ml-link').value.trim();
-  const cat = document.getElementById('ml-cat').value;
-  const fb = document.getElementById('form-feedback');
-  if (!link) { fb.textContent = '⚠ Ingresá el link de MercadoLibre'; fb.style.color = '#FF3B30'; return; }
-  if (!cat) { fb.textContent = '⚠ Seleccioná una categoría'; fb.style.color = '#FF3B30'; return; }
-  fb.textContent = '✓ Producto enviado para importar desde ML';
-  fb.style.color = '#00A650';
-  setTimeout(() => { fb.textContent = ''; clearForm(); }, 3000);
+
+// ── ML Product Importer ──
+const API_URL = 'http://localhost:3001/api';
+const ML_API = 'https://api.mercadolibre.com';
+let currentMLProduct = null;
+
+// Extrae ID de ML del link
+function extractMLId(url) {
+  const match = url.match(/MLA-?(\d+)/i);
+  return match ? `MLA${match[1]}` : null;
 }
 
-function clearForm() {
-  document.getElementById('ml-link').value = '';
-  document.getElementById('ml-title').value = '';
-  document.getElementById('ml-cat').value = '';
-  document.getElementById('ml-status').value = 'active';
-  document.getElementById('form-feedback').textContent = '';
+async function fetchMLProduct() {
+  const linkInput = document.getElementById('ml-link-input');
+  const link = linkInput.value.trim();
+  const loading = document.getElementById('ml-loading');
+  const error = document.getElementById('ml-error');
+  const preview = document.getElementById('ml-preview');
+  const fetchBtn = document.getElementById('ml-fetch-btn');
+  
+  // Limpiar estados anteriores
+  error.classList.remove('active');
+  error.textContent = '';
+  preview.classList.remove('active');
+  currentMLProduct = null;
+  
+  if (!link) {
+    showError('Por favor pegá un link de MercadoLibre');
+    return;
+  }
+  
+  if (!/mercadolibre/i.test(link)) {
+    showError('El link debe ser de MercadoLibre');
+    return;
+  }
+  
+  const itemId = extractMLId(link);
+  if (!itemId) {
+    showError('No se pudo extraer el ID del producto');
+    return;
+  }
+  
+  // Mostrar loading
+  loading.style.display = 'block';
+  fetchBtn.disabled = true;
+  
+  try {
+    // Llamada directa a la API de ML desde el frontend
+    const res = await fetch(`${ML_API}/items/${itemId}`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    
+    if (!res.ok) {
+      if (res.status === 404) {
+        throw new Error('Producto no encontrado en MercadoLibre');
+      }
+      throw new Error(`Error: ${res.status}`);
+    }
+    
+    const data = await res.json();
+    
+    // Calcular descuento
+    const precioOriginal = data.original_price || data.price;
+    const precioActual = data.price;
+    let descuento = 0;
+    if (precioOriginal > precioActual) {
+      descuento = Math.round(((precioOriginal - precioActual) / precioOriginal) * 100);
+    }
+    
+    // Obtener imagen
+    const imagen = data.thumbnail || 
+      (data.pictures && data.pictures[0]?.url) || 
+      (data.pictures && data.pictures[0]?.secure_url) || '';
+    
+    // Mostrar preview
+    currentMLProduct = { 
+      itemId: itemId,
+      titulo: data.title,
+      precio: precioActual,
+      precioOriginal: precioOriginal,
+      descuento: descuento,
+      imagen: imagen,
+      link: data.permalink || link,
+      condicion: data.condition,
+      vendidos: data.sold_quantity,
+      categoria: ''
+    };
+    
+    document.getElementById('ml-preview-img').src = imagen;
+    document.getElementById('ml-preview-title').textContent = data.title;
+    document.getElementById('ml-preview-current').textContent = `$${precioActual.toLocaleString('es-AR')}`;
+    document.getElementById('ml-preview-original').textContent = `$${precioOriginal.toLocaleString('es-AR')}`;
+    document.getElementById('ml-preview-discount').textContent = `-${descuento}%`;
+    document.getElementById('ml-preview-meta').textContent = `ID: ${itemId} · Condición: ${data.condition === 'new' ? 'Nuevo' : 'Usado'} · ${data.sold_quantity || 0} vendidos`;
+    
+    preview.classList.add('active');
+  } catch (e) {
+    showError(e.message);
+  } finally {
+    loading.style.display = 'none';
+    fetchBtn.disabled = false;
+  }
 }
+
+function showError(msg) {
+  const error = document.getElementById('ml-error');
+  error.textContent = msg;
+  error.classList.add('active');
+}
+
+async function saveMLProduct() {
+  const cat = document.getElementById('ml-cat').value;
+  
+  if (!cat) {
+    showError('Por favor seleccioná una categoría');
+    return;
+  }
+  
+  if (!currentMLProduct) {
+    showError('No hay producto para guardar');
+    return;
+  }
+  
+  currentMLProduct.categoria = cat;
+  
+  try {
+    const res = await fetch(`${API_URL}/guardar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ producto: currentMLProduct })
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) {
+      throw new Error(data.error || 'Error al guardar');
+    }
+    
+    // Agregar al grid
+    agregarProductoAlGrid(currentMLProduct);
+    
+    // Limpiar
+    cancelMLPreview();
+    linkInput.value = '';
+    alert('✓ Producto guardado correctamente');
+  } catch (e) {
+    showError(e.message);
+  }
+}
+
+function cancelMLPreview() {
+  document.getElementById('ml-preview').classList.remove('active');
+  document.getElementById('ml-link-input').value = '';
+  document.getElementById('ml-cat').value = '';
+  document.getElementById('ml-error').classList.remove('active');
+  currentMLProduct = null;
+}
+
+function agregarProductoAlGrid(p) {
+  const grid = document.getElementById('product-grid');
+  const desc = p.descuento || Math.round(100 - (p.precio * 100 / p.precioOriginal));
+  const ahorro = p.precioOriginal - p.precio;
+  const card = document.createElement('a');
+  card.href = p.link;
+  card.target = '_blank';
+  card.rel = 'noopener';
+  card.className = 'pc';
+  card.dataset.cat = p.categoria;
+  card.innerHTML = `
+    <div class="pc-img">
+      <img src="${p.imagen}" alt="${p.titulo}" style="width:100%;height:auto;object-fit:cover;max-height:140px;background:#F7F7F5;border-radius:8px;">
+      <div class="disc-b">-${desc}%</div>
+    </div>
+    <div class="pc-body">
+      <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">${(p.categoria || 'general').charAt(0).toUpperCase() + (p.categoria || 'general').slice(1)}</span></div>
+      <div class="pc-title">${p.titulo}</div>
+      <div class="prices"><span class="price-curr">$${p.precio.toLocaleString('es-AR')}</span><span class="price-orig">$${p.precioOriginal.toLocaleString('es-AR')}</span></div>
+      <div class="savings-row"><span class="save-tag">Ahorrás $${ahorro.toLocaleString('es-AR')}</span></div>
+      <button class="pc-cta">Ver oferta en MercadoLibre</button>
+    </div>
+  `;
+  grid.prepend(card);
+}
+
+// ── Verificador ──
+async function verificarTodos() {
+  const grid = document.getElementById('verif-grid');
+  grid.innerHTML = '<div class="ml-loading">Verificando productos...</div>';
+  
+  try {
+    const res = await fetch(`${API_URL}/productos`);
+    const productos = await res.json();
+    
+    if (productos.length === 0) {
+      grid.innerHTML = '<p style="color:#888;font-size:13px">No hay productos guardados</p>';
+      return;
+    }
+    
+    grid.innerHTML = '';
+    
+    for (const p of productos) {
+      await verificarProducto(p, grid);
+    }
+  } catch (e) {
+    grid.innerHTML = `<div class="ml-error active">Error: ${e.message}</div>`;
+  }
+}
+
+async function verificarSoloCambios() {
+  const grid = document.getElementById('verif-grid');
+  grid.innerHTML = '<div class="ml-loading">Verificando solo productos con cambios...</div>';
+  
+  try {
+    const res = await fetch(`${API_URL}/productos`);
+    const productos = await res.json();
+    
+    if (productos.length === 0) {
+      grid.innerHTML = '<p style="color:#888;font-size:13px">No hay productos guardados</p>';
+      return;
+    }
+    
+    grid.innerHTML = '';
+    
+    for (const p of productos) {
+      const result = await verificarProductoSilent(p.link);
+      if (result && (result.nuevoDescuento !== (p.descuento || 0) || result.precioActual !== p.precio)) {
+        await verificarProducto(p, grid);
+      }
+    }
+    
+    if (grid.innerHTML === '') {
+      grid.innerHTML = '<p style="color:#00A650;font-size:13px">✓ Todos los productos están actualizados</p>';
+    }
+  } catch (e) {
+    grid.innerHTML = `<div class="ml-error active">Error: ${e.message}</div>`;
+  }
+}
+
+async function verificarProductoSilent(link) {
+  const itemId = extractMLId(link);
+  if (!itemId) return null;
+  
+  try {
+    const res = await fetch(`${ML_API}/items/${itemId}`, {
+      headers: { 'Accept': 'application/json' }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return {
+      precioActual: data.price,
+      precioOriginal: data.original_price || data.price,
+      nuevoDescuento: Math.round(100 - (data.price * 100 / (data.original_price || data.price)))
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function verificarProducto(p, grid) {
+  const itemId = extractMLId(p.link);
+  if (!itemId) return;
+  
+  try {
+    const res = await fetch(`${ML_API}/items/${itemId}`, {
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    if (!res.ok) {
+      // Producto no encontrado o error
+      const item = document.createElement('div');
+      item.className = 'verif-item';
+      item.innerHTML = `
+        <div class="verif-item-header">
+          <div class="verif-item-title">${p.titulo}</div>
+          <span class="verif-status offline">No disponible</span>
+        </div>
+        <div class="verif-item-prices">
+          <span class="verif-old-price">$${p.precio.toLocaleString('es-AR')}</span>
+        </div>
+        <div class="verif-item-actions">
+          <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto('${p.link}')">Eliminar</button>
+        </div>
+      `;
+      grid.appendChild(item);
+      return;
+    }
+    
+    const data = await res.json();
+    
+    const item = document.createElement('div');
+    item.className = 'verif-item';
+    
+    let statusClass = 'ok';
+    let statusText = 'Vigente';
+    
+    if (data.status !== 'active') {
+      statusClass = 'offline';
+      statusText = 'No disponible';
+    } else if (data.price !== p.precio) {
+      statusClass = 'changed';
+      statusText = 'Precio cambió';
+    }
+    
+    const precioOld = p.precio;
+    const precioNew = data.price;
+    
+    item.innerHTML = `
+      <div class="verif-item-header">
+        <div class="verif-item-title">${p.titulo}</div>
+        <span class="verif-status ${statusClass}">${statusText}</span>
+      </div>
+      <div class="verif-item-prices">
+        <span class="verif-old-price">$${precioOld.toLocaleString('es-AR')}</span>
+        <span class="verif-arrow">→</span>
+        <span class="verif-new-price">$${precioNew.toLocaleString('es-AR')}</span>
+      </div>
+      <div class="verif-item-actions">
+        <button class="verif-btn verif-btn-actualizar" onclick="actualizarProducto('${p.link}', ${JSON.stringify({precioActual: precioNew, nuevoDescuento: Math.round(100 - (precioNew * 100 / (data.original_price || precioNew))))})})">Actualizar</button>
+        <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto('${p.link}')">Eliminar</button>
+      </div>
+    `;
+    
+    grid.appendChild(item);
+  } catch (e) {
+    console.error('Error verificando:', e);
+  }
+}
+
+async function actualizarProducto(link, nuevosDatos) {
+  try {
+    alert('Producto actualizado:\nPrecio: $' + nuevosDatos.precioActual + '\nDescuento: ' + nuevosDatos.nuevoDescuento + '%');
+    verificarTodos();
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+async function eliminarProducto(link) {
+  if (!confirm('¿Estás seguro de eliminar este producto?')) return;
+  
+  try {
+    const res = await fetch(`${API_URL}/producto/${encodeURIComponent(link)}`, {
+      method: 'DELETE'
+    });
+    
+    if (!res.ok) throw new Error('Error al eliminar');
+    
+    alert('Producto eliminado');
+    verificarTodos();
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+// Enter key para importar
+document.getElementById('ml-link-input').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    fetchMLProduct();
+  }
+});
 </script>
 </body>
 </html>
