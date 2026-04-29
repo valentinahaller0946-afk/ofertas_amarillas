@@ -1,11 +1,10 @@
-// Vercel configuration for Node.js API
 {
   "version": 2,
   "builds": [
-    { "src": "api-ml.js", "use": "@vercel/node" }
+    { "src": "api/api-ml.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api-ml.js" },
+    { "src": "/api/(.*)", "dest": "/api/api-ml.js" },
     { "src": "/(.*)", "dest": "/ofertas-amarillas.html" }
   ]
 }
