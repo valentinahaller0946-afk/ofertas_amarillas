@@ -245,6 +245,29 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
   .pgrid{grid-template-columns:1fr 1fr}
   .price-curr{font-size:18px}
 }
+
+/* ── ADMIN MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.active{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:16px;padding:36px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.25);transform:translateY(12px);transition:transform .2s;position:relative}
+.modal-overlay.active .modal-box{transform:translateY(0)}
+.modal-title{font-size:18px;font-weight:800;color:#111;margin-bottom:6px}
+.modal-sub{font-size:13px;color:#999;margin-bottom:24px}
+.modal-inp{width:100%;padding:12px 14px;border-radius:8px;border:2px solid #E8E8E4;font-family:var(--font);font-size:14px;outline:none;transition:border-color .15s;margin-bottom:14px;box-sizing:border-box}
+.modal-inp:focus{border-color:var(--y)}
+.modal-err{background:#FFF0F0;border:1px solid #FFCDD2;border-radius:8px;padding:11px 15px;color:#C62828;font-size:13px;margin-bottom:14px;display:none}
+.modal-err.active{display:block}
+.modal-btn-submit{width:100%;padding:13px;background:#000;color:var(--y);font-family:var(--font);font-size:14px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:background .15s}
+.modal-btn-submit:hover{background:#1a1a1a}
+.modal-x{position:absolute;top:14px;right:14px;background:none;border:none;font-size:18px;cursor:pointer;color:#AAA;padding:4px 8px;border-radius:6px}
+.modal-x:hover{background:#F0F0EE;color:#555}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;background:#111;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:999;transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── LOADING STATE ── */
+.loading-grid{text-align:center;padding:60px 24px;color:#999;font-size:14px}
 </style>
 </head>
 <body>
@@ -326,105 +349,18 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
 <div class="products-section" id="productos">
   <div class="sec-h"><h2>Ofertas destacadas</h2><a href="#">Ver todas →</a></div>
   <div class="pgrid" id="product-grid">
-
-    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="hogar">
-      <div class="pc-img">🏠<div class="disc-b">-38%</div><div class="free-pill">Envío gratis</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Hogar</span></div>
-        <div class="pc-title">Robot aspirador con mapeo láser y app WiFi</div>
-        <div class="prices"><span class="price-curr">$89.990</span><span class="price-orig">$144.990</span></div>
-        <div class="savings-row"><span class="save-tag">Ahorrás $55.000</span></div>
-        <button class="pc-cta">Ver oferta en MercadoLibre</button>
-      </div>
-    </a>
-
-    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="cuidado-personal">
-      <div class="pc-img">💆<div class="disc-b">-42%</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Cuidado personal</span></div>
-        <div class="pc-title">Depiladora eléctrica inalámbrica resistente al agua</div>
-        <div class="prices"><span class="price-curr">$28.500</span><span class="price-orig">$49.100</span></div>
-        <div class="savings-row"><span class="save-tag">Ahorrás $20.600</span></div>
-        <button class="pc-cta">Ver oferta en MercadoLibre</button>
-      </div>
-    </a>
-
-    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="tecnologia">
-      <div class="pc-img">📱<div class="disc-b">-45%</div><div class="free-pill">Envío gratis</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Tecnología</span></div>
-        <div class="pc-title">Auriculares inalámbricos con cancelación de ruido activa</div>
-        <div class="prices"><span class="price-curr">$36.400</span><span class="price-orig">$66.200</span></div>
-        <div class="savings-row"><span class="save-tag">Ahorrás $29.800</span></div>
-        <button class="pc-cta">Ver oferta en MercadoLibre</button>
-      </div>
-    </a>
-
-    <a href="#" class="pc expired" data-cat="indumentaria">
-      <div class="pc-img">👕<div class="exp-badge">Expirada</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Indumentaria</span></div>
-        <div class="pc-title">Campera impermeable unisex con capucha desmontable</div>
-        <div class="prices"><span class="price-curr">$42.000</span><span class="price-orig">$68.000</span></div>
-        <div class="savings-row"><span style="font-size:11px;color:#CCC">Esta oferta ya no está disponible</span></div>
-        <button class="pc-cta" disabled>No disponible</button>
-      </div>
-    </a>
-
-    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="deporte">
-      <div class="pc-img">🏃<div class="disc-b">-35%</div><div class="free-pill">Envío gratis</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Deporte</span></div>
-        <div class="pc-title">Bicicleta fija spinning volante 18kg pantalla LCD</div>
-        <div class="prices"><span class="price-curr">$184.990</span><span class="price-orig">$284.600</span></div>
-        <div class="savings-row"><span class="save-tag">Ahorrás $99.610</span></div>
-        <button class="pc-cta">Ver oferta en MercadoLibre</button>
-      </div>
-    </a>
-
-    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="electrodomesticos">
-      <div class="pc-img">🔌<div class="disc-b">-40%</div><div class="free-pill">Envío gratis</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Electrodomésticos</span></div>
-        <div class="pc-title">Freidora de aire digital 5.5L pantalla touch sin aceite</div>
-        <div class="prices"><span class="price-curr">$62.990</span><span class="price-orig">$104.900</span></div>
-        <div class="savings-row"><span class="save-tag">Ahorrás $41.910</span></div>
-        <button class="pc-cta">Ver oferta en MercadoLibre</button>
-      </div>
-    </a>
-
-    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="cuidado-personal">
-      <div class="pc-img">💇<div class="disc-b">-30%</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Cuidado personal</span></div>
-        <div class="pc-title">Secador de cabello iónico 2200W difusor y concentrador</div>
-        <div class="prices"><span class="price-curr">$34.900</span><span class="price-orig">$49.900</span></div>
-        <div class="savings-row"><span class="save-tag">Ahorrás $15.000</span></div>
-        <button class="pc-cta">Ver oferta en MercadoLibre</button>
-      </div>
-    </a>
-
-    <a href="https://www.mercadolibre.com.ar" target="_blank" rel="noopener" class="pc" data-cat="indumentaria">
-      <div class="pc-img">👟<div class="disc-b">-28%</div></div>
-      <div class="pc-body">
-        <div class="ml-row"><span class="ml-logo">MercadoLibre</span><span class="ml-sep">·</span><span class="ml-cat">Indumentaria</span></div>
-        <div class="pc-title">Zapatillas running hombre suela amortiguada talle 38-46</div>
-        <div class="prices"><span class="price-curr">$54.900</span><span class="price-orig">$76.300</span></div>
-        <div class="savings-row"><span class="save-tag">Ahorrás $21.400</span></div>
-        <button class="pc-cta">Ver oferta en MercadoLibre</button>
-      </div>
-    </a>
-
+    <!-- Productos cargados dinámicamente desde JSONbin -->
   </div>
 
   <!-- EMPTY STATE (hidden by default) -->
-  <div id="empty-state" style="display:none" class="empty-box" style="margin:0 0 52px">
+  <div id="empty-state" style="display:none" class="empty-box">
     <div style="font-size:40px;margin-bottom:14px">📭</div>
-    <h3>Sin ofertas en esta categoría por el momento</h3>
+    <h3>Sin ofertas por el momento</h3>
     <p>Volvé pronto — actualizamos todos los días con nuevas ofertas de MercadoLibre.</p>
     <a href="#" class="btn-p" onclick="resetCat(event)">Ver todas las categorías</a>
   </div>
 </div>
+
 
 <!-- ══ HOW IT WORKS ══ -->
 <section class="how-section" id="como-funciona">
@@ -458,9 +394,9 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
         <a href="#">Inicio</a>
         <a href="#categorias">Categorías</a>
         <a href="#como-funciona">¿Cómo funciona?</a>
-        <a href="#">Contacto</a>
-        <a href="#">Instagram</a>
-        <a href="#">WhatsApp</a>
+        <a href="https://www.instagram.com/ofertasamarillas.ar/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://whatsapp.com/channel/0029VbCzp9R4yltP4k9Ylw1f" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#" onclick="openAdminModal(event)" style="color:#555">⚙ Admin</a>
       </div>
     </div>
     <p class="footer-disclaimer">
@@ -469,8 +405,23 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
   </div>
 </footer>
 
+<!-- ══ ADMIN LOGIN MODAL ══ -->
+<div class="modal-overlay" id="admin-modal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeAdminModal()">✕</button>
+    <div class="modal-title">🔐 Acceso Admin</div>
+    <div class="modal-sub">Ingresá la contraseña para gestionar productos.</div>
+    <div class="modal-err" id="modal-err">Contraseña incorrecta</div>
+    <input class="modal-inp" type="password" id="modal-pw" placeholder="Contraseña" onkeypress="if(event.key==='Enter')submitAdminLogin()">
+    <button class="modal-btn-submit" onclick="submitAdminLogin()">Ingresar</button>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast"></div>
+
 <!-- ══ ADMIN PANEL ══ -->
-<div class="admin-section" id="admin">
+<div class="admin-section" id="admin" style="display:none">
   <div class="admin-inner">
     <div class="admin-header">
       <span class="admin-tag">Admin</span>
@@ -539,7 +490,7 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
 </div>
 
 <script>
-const API_URL = 'http://localhost:3001/api';
+const API_URL = '/api';
 let currentMLProduct = null;
 
 // ── Category filter ──
@@ -584,11 +535,51 @@ document.getElementById('search-input').addEventListener('input', function() {
   });
 });
 
+// ── Admin Modal ──
+function openAdminModal(e) {
+  if(e) e.preventDefault();
+  if(sessionStorage.getItem('adminToken')) { showAdmin(); return; }
+  document.getElementById('admin-modal').classList.add('active');
+  setTimeout(() => document.getElementById('modal-pw').focus(), 200);
+}
+function closeAdminModal() {
+  document.getElementById('admin-modal').classList.remove('active');
+  document.getElementById('modal-pw').value = '';
+  document.getElementById('modal-err').classList.remove('active');
+}
+async function submitAdminLogin() {
+  const pw = document.getElementById('modal-pw').value.trim();
+  const errEl = document.getElementById('modal-err');
+  errEl.classList.remove('active');
+  if (!pw) return;
+  try {
+    const res = await fetch(`${API_URL}/auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw })
+    });
+    if (!res.ok) { errEl.classList.add('active'); return; }
+    sessionStorage.setItem('adminToken', pw);
+    closeAdminModal();
+    showAdmin();
+  } catch(e) {
+    errEl.textContent = 'Error de conexión'; errEl.classList.add('active');
+  }
+}
+function showAdmin() {
+  const sec = document.getElementById('admin');
+  sec.style.display = 'block';
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
 
 // ── ML Product Importer ──
-const API_URL = 'http://localhost:3001/api';
-const ML_API = 'https://api.mercadolibre.com';
-let currentMLProduct = null;
 
 // Extrae ID de ML del link
 function extractMLId(url) {
@@ -603,84 +594,38 @@ async function fetchMLProduct() {
   const error = document.getElementById('ml-error');
   const preview = document.getElementById('ml-preview');
   const fetchBtn = document.getElementById('ml-fetch-btn');
-  
-  // Limpiar estados anteriores
+
   error.classList.remove('active');
   error.textContent = '';
   preview.classList.remove('active');
   currentMLProduct = null;
-  
-  if (!link) {
-    showError('Por favor pegá un link de MercadoLibre');
-    return;
-  }
-  
-  if (!/mercadolibre/i.test(link)) {
-    showError('El link debe ser de MercadoLibre');
-    return;
-  }
-  
-  const itemId = extractMLId(link);
-  if (!itemId) {
-    showError('No se pudo extraer el ID del producto');
-    return;
-  }
-  
-  // Mostrar loading
+
+  if (!link) { showError('Pegá un link de MercadoLibre'); return; }
+  if (!/mercadolibre/i.test(link)) { showError('El link debe ser de MercadoLibre'); return; }
+
   loading.style.display = 'block';
   fetchBtn.disabled = true;
-  
+
   try {
-    // Llamada directa a la API de ML desde el frontend
-    const res = await fetch(`${ML_API}/items/${itemId}`, {
-      headers: {
-        'Accept': 'application/json'
-      }
+    // Usa el proxy del backend para evitar CORS
+    const res = await fetch(`${API_URL}/producto`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ link })
     });
-    
-    if (!res.ok) {
-      if (res.status === 404) {
-        throw new Error('Producto no encontrado en MercadoLibre');
-      }
-      throw new Error(`Error: ${res.status}`);
-    }
-    
+
     const data = await res.json();
-    
-    // Calcular descuento
-    const precioOriginal = data.original_price || data.price;
-    const precioActual = data.price;
-    let descuento = 0;
-    if (precioOriginal > precioActual) {
-      descuento = Math.round(((precioOriginal - precioActual) / precioOriginal) * 100);
-    }
-    
-    // Obtener imagen
-    const imagen = data.thumbnail || 
-      (data.pictures && data.pictures[0]?.url) || 
-      (data.pictures && data.pictures[0]?.secure_url) || '';
-    
-    // Mostrar preview
-    currentMLProduct = { 
-      itemId: itemId,
-      titulo: data.title,
-      precio: precioActual,
-      precioOriginal: precioOriginal,
-      descuento: descuento,
-      imagen: imagen,
-      link: data.permalink || link,
-      condicion: data.condition,
-      vendidos: data.sold_quantity,
-      categoria: ''
-    };
-    
-    document.getElementById('ml-preview-img').src = imagen;
-    document.getElementById('ml-preview-title').textContent = data.title;
-    document.getElementById('ml-preview-current').textContent = `$${precioActual.toLocaleString('es-AR')}`;
-    document.getElementById('ml-preview-original').textContent = `$${precioOriginal.toLocaleString('es-AR')}`;
-    document.getElementById('ml-preview-discount').textContent = `-${descuento}%`;
-    document.getElementById('ml-preview-meta').textContent = `ID: ${itemId} · Condición: ${data.condition === 'new' ? 'Nuevo' : 'Usado'} · ${data.sold_quantity || 0} vendidos`;
-    
+    if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+
+    currentMLProduct = data;
+
+    document.getElementById('ml-preview-img').src = data.imagen;
+    document.getElementById('ml-preview-title').textContent = data.titulo;
+    document.getElementById('ml-preview-current').textContent = `$${data.precio.toLocaleString('es-AR')}`;
+    document.getElementById('ml-preview-original').textContent = `$${data.precioOriginal.toLocaleString('es-AR')}`;
+    document.getElementById('ml-preview-discount').textContent = data.descuento > 0 ? `-${data.descuento}%` : '';
+    document.getElementById('ml-preview-meta').textContent = `ID: ${data.itemId} · ${data.condicion === 'new' ? 'Nuevo' : 'Usado'} · ${data.vendidos} vendidos`;
+
     preview.classList.add('active');
   } catch (e) {
     showError(e.message);
@@ -698,39 +643,32 @@ function showError(msg) {
 
 async function saveMLProduct() {
   const cat = document.getElementById('ml-cat').value;
-  
-  if (!cat) {
-    showError('Por favor seleccioná una categoría');
-    return;
-  }
-  
-  if (!currentMLProduct) {
-    showError('No hay producto para guardar');
-    return;
-  }
-  
+  const linkInput = document.getElementById('ml-link-input');
+
+  if (!cat) { showError('Seleccioná una categoría'); return; }
+  if (!currentMLProduct) { showError('No hay producto para guardar'); return; }
+
   currentMLProduct.categoria = cat;
-  
+  const adminToken = sessionStorage.getItem('adminToken') || '';
+
   try {
     const res = await fetch(`${API_URL}/guardar`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-admin-password': adminToken
+      },
       body: JSON.stringify({ producto: currentMLProduct })
     });
-    
+
     const data = await res.json();
-    
-    if (!res.ok) {
-      throw new Error(data.error || 'Error al guardar');
-    }
-    
-    // Agregar al grid
+    if (!res.ok) throw new Error(data.error || 'Error al guardar');
+
     agregarProductoAlGrid(currentMLProduct);
-    
-    // Limpiar
     cancelMLPreview();
     linkInput.value = '';
-    alert('✓ Producto guardado correctamente');
+    updateProductCount(1);
+    showToast('✓ Producto guardado correctamente');
   } catch (e) {
     showError(e.message);
   }
@@ -810,8 +748,8 @@ async function verificarSoloCambios() {
     grid.innerHTML = '';
     
     for (const p of productos) {
-      const result = await verificarProductoSilent(p.link);
-      if (result && (result.nuevoDescuento !== (p.descuento || 0) || result.precioActual !== p.precio)) {
+      const result = await verificarProductoSilent(p.itemId);
+      if (result && (!result.disponible || result.precioActual !== p.precio)) {
         await verificarProducto(p, grid);
       }
     }
@@ -824,34 +762,23 @@ async function verificarSoloCambios() {
   }
 }
 
-async function verificarProductoSilent(link) {
-  const itemId = extractMLId(link);
+async function verificarProductoSilent(itemId) {
   if (!itemId) return null;
-  
   try {
-    const res = await fetch(`${ML_API}/items/${itemId}`, {
-      headers: { 'Accept': 'application/json' }
-    });
+    const res = await fetch(`${API_URL}/verificar/${itemId}`);
     if (!res.ok) return null;
     const data = await res.json();
-    return {
-      precioActual: data.price,
-      precioOriginal: data.original_price || data.price,
-      nuevoDescuento: Math.round(100 - (data.price * 100 / (data.original_price || data.price)))
-    };
+    return { precioActual: data.precio, disponible: data.disponible };
   } catch {
     return null;
   }
 }
 
 async function verificarProducto(p, grid) {
-  const itemId = extractMLId(p.link);
+  const itemId = p.itemId || extractMLId(p.link);
   if (!itemId) return;
-  
   try {
-    const res = await fetch(`${ML_API}/items/${itemId}`, {
-      headers: { 'Accept': 'application/json' }
-    });
+    const res = await fetch(`${API_URL}/verificar/${itemId}`);
     
     if (!res.ok) {
       // Producto no encontrado o error
@@ -923,29 +850,60 @@ async function actualizarProducto(link, nuevosDatos) {
   }
 }
 
-async function eliminarProducto(link) {
-  if (!confirm('¿Estás seguro de eliminar este producto?')) return;
-  
+async function eliminarProducto(itemId) {
+  if (!confirm('¿Eliminar este producto?')) return;
+  const adminToken = sessionStorage.getItem('adminToken') || '';
   try {
-    const res = await fetch(`${API_URL}/producto/${encodeURIComponent(link)}`, {
-      method: 'DELETE'
+    const res = await fetch(`${API_URL}/producto/${itemId}`, {
+      method: 'DELETE',
+      headers: { 'x-admin-password': adminToken }
     });
-    
     if (!res.ok) throw new Error('Error al eliminar');
-    
-    alert('Producto eliminado');
+    showToast('Producto eliminado');
     verificarTodos();
+    loadProducts();
   } catch (e) {
     alert('Error: ' + e.message);
   }
 }
 
+// ── Carga dinámica de productos al iniciar ──
+async function loadProducts() {
+  const grid = document.getElementById('product-grid');
+  const empty = document.getElementById('empty-state');
+  grid.innerHTML = '<div class="loading-grid">Cargando ofertas...</div>';
+  try {
+    const res = await fetch(`${API_URL}/productos`);
+    const productos = await res.json();
+    grid.innerHTML = '';
+    if (productos.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    productos.forEach(p => agregarProductoAlGrid(p, false));
+    updateProductCount(0);
+  } catch(e) {
+    grid.innerHTML = '<div class="loading-grid">No se pudieron cargar las ofertas.</div>';
+  }
+}
+
+function updateProductCount(delta) {
+  const el = document.querySelector('.sp-num.tbd');
+  if (!el) return;
+  const curr = parseInt(el.dataset.count || '0') + delta;
+  el.dataset.count = curr;
+  el.textContent = curr > 0 ? curr : '—';
+  if (curr > 0) el.classList.remove('tbd');
+}
+
 // Enter key para importar
 document.getElementById('ml-link-input').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    fetchMLProduct();
-  }
+  if (e.key === 'Enter') fetchMLProduct();
 });
+
+// Cargar productos al iniciar
+loadProducts();
 </script>
 </body>
 </html>

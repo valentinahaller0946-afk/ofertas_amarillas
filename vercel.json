@@ -1,7 +1,8 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/api-ml.js", "use": "@vercel/node" }
+    { "src": "api/api-ml.js", "use": "@vercel/node" },
+    { "src": "ofertas-amarillas.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/api-ml.js" },

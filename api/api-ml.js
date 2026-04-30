@@ -1,153 +1,174 @@
-// ...existing code...
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
-
-// Node.js 22+ tiene fetch nativo
-const fetch = globalThis.fetch || require('node-fetch');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PRODUCTOS_FILE = path.join(__dirname, '../productos.json');
+// ── Configuración JSONbin.io ──
+const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID;
+const JSONBIN_KEY    = process.env.JSONBIN_KEY;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const JSONBIN_URL    = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
-// Lee productos guardados
-function getProductos() {
-  try {
-    const data = fs.readFileSync(PRODUCTOS_FILE, 'utf-8');
-    return JSON.parse(data);
-  } catch {
-    return [];
+// ── Helpers JSONbin ──
+async function getProductos() {
+  const res = await fetch(`${JSONBIN_URL}/latest`, {
+    headers: { 'X-Master-Key': JSONBIN_KEY }
+  });
+  if (!res.ok) throw new Error('Error al leer JSONbin');
+  const data = await res.json();
+  return data.record.productos || [];
+}
+
+async function saveProductos(productos) {
+  const res = await fetch(JSONBIN_URL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': JSONBIN_KEY
+    },
+    body: JSON.stringify({ productos })
+  });
+  if (!res.ok) throw new Error('Error al guardar en JSONbin');
+}
+
+// ── Auth helper ──
+function checkAdmin(req, res) {
+  const pw = req.headers['x-admin-password'];
+  if (!ADMIN_PASSWORD || pw !== ADMIN_PASSWORD) {
+    res.status(401).json({ error: 'No autorizado' });
+    return false;
   }
+  return true;
 }
 
-// Guarda productos
-function saveProductos(productos) {
-  fs.writeFileSync(PRODUCTOS_FILE, JSON.stringify(productos, null, 2));
-}
-
-// Extrae el ID de ML de un link (soporta múltiples formatos)
 function extractId(url) {
-  // MLA-123456789, MLA123456789, mla-123456789
   const match = url.match(/MLA-?(\d+)/i);
   return match ? `MLA${match[1]}` : null;
 }
 
-// Valida que sea un link de Mercado Libre
-function isValidMLUrl(url) {
-  return /mercadolibre\.(com\.ar|com\.br|com\.mx|com\.co|com\.pe|com\.cl|com\.uy)/i.test(url);
-}
+// ── Endpoints ──
 
-// Endpoint proxy para evitar CORS del lado del cliente
+// Verificar contraseña admin
+app.post('/api/auth', (req, res) => {
+  const { password } = req.body;
+  if (password === ADMIN_PASSWORD) {
+    res.json({ success: true });
+  } else {
+    res.status(401).json({ error: 'Contraseña incorrecta' });
+  }
+});
+
+// Proxy: busca producto en ML y devuelve datos al frontend
 app.post('/api/producto', async (req, res) => {
   const { link } = req.body;
-  
-  if (!link) {
-    return res.status(400).json({ error: 'Falta el link del producto' });
-  }
+  if (!link) return res.status(400).json({ error: 'Falta el link' });
 
-  if (!isValidMLUrl(link)) {
-    return res.status(400).json({ error: 'El link no es de Mercado Libre válido' });
+  if (!/mercadolibre/i.test(link)) {
+    return res.status(400).json({ error: 'El link debe ser de MercadoLibre' });
   }
 
   const itemId = extractId(link);
-  if (!itemId) {
-    return res.status(400).json({ error: 'No se pudo extraer el ID del producto del link' });
-  }
+  if (!itemId) return res.status(400).json({ error: 'No se pudo extraer el ID del producto' });
 
   try {
-    const apiUrl = `https://api.mercadolibre.com/items/${itemId}`;
-    const response = await fetch(apiUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'application/json',
-        'Origin': 'https://www.mercadolibre.com.ar'
-      }
+    const mlRes = await fetch(`https://api.mercadolibre.com/items/${itemId}`, {
+      headers: { 'Accept': 'application/json' }
     });
-    
-    if (!response.ok) {
-      if (response.status === 404) {
-        return res.status(404).json({ error: 'Producto no encontrado en Mercado Libre' });
-      }
-      // Si falla el proxy, devolvemos los datos necesarios para que el frontend intente directamente
-      return res.status(response.status).json({ 
-        error: 'Error desde proxy',
-        useDirectCall: true,
-        itemId: itemId 
-      });
+
+    if (!mlRes.ok) {
+      if (mlRes.status === 404) return res.status(404).json({ error: 'Producto no encontrado en MercadoLibre' });
+      return res.status(mlRes.status).json({ error: `Error de MercadoLibre: ${mlRes.status}` });
     }
 
-    const data = await response.json();
-
-    // Calcular descuento
+    const data = await mlRes.json();
     const precioOriginal = data.original_price || data.price;
-    const precioActual = data.price;
-    let descuento = 0;
-    
-    if (precioOriginal > precioActual) {
-      descuento = Math.round(((precioOriginal - precioActual) / precioOriginal) * 100);
-    }
+    const precioActual   = data.price;
+    const descuento = precioOriginal > precioActual
+      ? Math.round(((precioOriginal - precioActual) / precioOriginal) * 100)
+      : 0;
 
-    // Obtener imagen
-    const imagen = data.thumbnail || 
-      (data.pictures && data.pictures[0]?.url) || 
-      (data.pictures && data.pictures[0]?.secure_url) || '';
+    const imagen = data.thumbnail ||
+      (data.pictures && data.pictures[0]?.secure_url) ||
+      (data.pictures && data.pictures[0]?.url) || '';
 
     res.json({
       success: true,
-      itemId: itemId,
+      itemId,
       titulo: data.title,
-      precio: data.price,
-      imagen,
-      descuento
+      precio: precioActual,
+      precioOriginal,
+      descuento,
+      imagen: imagen.replace(/\-I\.jpg$/, '-O.jpg'), // imagen más grande
+      link: data.permalink || link,
+      condicion: data.condition,
+      vendidos: data.sold_quantity || 0,
+      envioGratis: data.shipping?.free_shipping || false,
+      categoria: ''
     });
   } catch (err) {
-    res.status(500).json({ error: 'Error al consultar Mercado Libre', details: err.message });
+    res.status(500).json({ error: 'Error al consultar MercadoLibre', details: err.message });
   }
 });
 
-// Listar productos guardados
-app.get('/api/productos', (req, res) => {
-  res.json(getProductos());
+// Listar productos
+app.get('/api/productos', async (req, res) => {
+  try {
+    const productos = await getProductos();
+    res.json(productos);
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener productos', details: err.message });
+  }
 });
 
-// Guardar producto
-app.post('/api/guardar', (req, res) => {
-  const producto = req.body;
+// Guardar producto (protegido)
+app.post('/api/guardar', async (req, res) => {
+  if (!checkAdmin(req, res)) return;
+
+  const { producto } = req.body;
   if (!producto || !producto.itemId) {
     return res.status(400).json({ error: 'Producto inválido' });
   }
-  const productos = getProductos();
-  if (productos.find(p => p.itemId === producto.itemId)) {
-    return res.status(409).json({ error: 'Producto ya guardado' });
+
+  try {
+    const productos = await getProductos();
+    if (productos.find(p => p.itemId === producto.itemId)) {
+      return res.status(409).json({ error: 'Este producto ya está guardado' });
+    }
+    productos.unshift(producto);
+    await saveProductos(productos);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-  productos.push(producto);
-  saveProductos(productos);
-  res.json({ success: true });
 });
 
-// Eliminar producto
-app.delete('/api/eliminar/:itemId', (req, res) => {
-  const { itemId } = req.params;
-  let productos = getProductos();
-  productos = productos.filter(p => p.itemId !== itemId);
-  saveProductos(productos);
-  res.json({ success: true });
+// Eliminar producto (protegido)
+app.delete('/api/producto/:itemId', async (req, res) => {
+  if (!checkAdmin(req, res)) return;
+
+  try {
+    let productos = await getProductos();
+    productos = productos.filter(p => p.itemId !== req.params.itemId);
+    await saveProductos(productos);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Verificar si un producto sigue disponible
 app.get('/api/verificar/:itemId', async (req, res) => {
-  const { itemId } = req.params;
   try {
-    const apiUrl = `https://api.mercadolibre.com/items/${itemId}`;
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      return res.status(404).json({ disponible: false });
-    }
-    const data = await response.json();
-    res.json({ disponible: data.status === 'active' });
+    const mlRes = await fetch(`https://api.mercadolibre.com/items/${req.params.itemId}`);
+    if (!mlRes.ok) return res.json({ disponible: false, precio: null });
+    const data = await mlRes.json();
+    res.json({
+      disponible: data.status === 'active',
+      precio: data.price,
+      precioOriginal: data.original_price || data.price
+    });
   } catch {
     res.status(500).json({ disponible: false });
   }
