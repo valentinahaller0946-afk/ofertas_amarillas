@@ -441,6 +441,31 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
       
       <div class="ml-error" id="ml-error"></div>
       
+      <!-- Carga Manual (Fallback) -->
+      <div class="ml-manual" id="ml-manual" style="display:none; margin-top:16px; background:#F7F6F0; padding:20px; border-radius:12px; border:1px solid #E8E8E4;">
+        <h4 style="margin-bottom:12px; font-size:14px; color:#111;">Carga Manual (Anti-bloqueo)</h4>
+        <p style="font-size:12px; color:#666; margin-bottom:16px;">MercadoLibre bloqueó la carga automática. Ingresá los datos a mano:</p>
+        <div class="form-grid">
+          <div class="fg full">
+            <label>Título del producto</label>
+            <input type="text" id="man-title" class="modal-inp" style="margin-bottom:0">
+          </div>
+          <div class="fg">
+            <label>Precio Final ($)</label>
+            <input type="number" id="man-price" class="modal-inp" style="margin-bottom:0">
+          </div>
+          <div class="fg">
+            <label>Precio Sin Descuento ($)</label>
+            <input type="number" id="man-orig" class="modal-inp" style="margin-bottom:0" placeholder="Igual al final si no hay">
+          </div>
+          <div class="fg full">
+            <label>Link de la imagen (JPG/PNG)</label>
+            <input type="url" id="man-img" class="modal-inp" style="margin-bottom:0">
+          </div>
+        </div>
+        <button class="ml-btn" onclick="useManualData()" style="margin-top:16px; width:100%">Usar estos datos</button>
+      </div>
+
       <div class="ml-preview" id="ml-preview">
         <div class="ml-preview-header">
           <img class="ml-preview-img" id="ml-preview-img" src="" alt="Producto">
@@ -599,6 +624,7 @@ async function fetchMLProduct() {
 
   error.classList.remove('active');
   error.textContent = '';
+  document.getElementById('ml-manual').style.display = 'none';
   preview.classList.remove('active');
   currentMLProduct = null;
 
@@ -630,7 +656,8 @@ async function fetchMLProduct() {
 
     preview.classList.add('active');
   } catch (e) {
-    showError(e.message);
+    showError(e.message + ". Usá la carga manual debajo.");
+    document.getElementById('ml-manual').style.display = 'block';
   } finally {
     loading.style.display = 'none';
     fetchBtn.disabled = false;
@@ -679,9 +706,56 @@ async function saveMLProduct() {
 function cancelMLPreview() {
   document.getElementById('ml-preview').classList.remove('active');
   document.getElementById('ml-link-input').value = '';
+  document.getElementById('ml-manual').style.display = 'none';
+  document.getElementById('man-title').value = '';
+  document.getElementById('man-price').value = '';
+  document.getElementById('man-orig').value = '';
+  document.getElementById('man-img').value = '';
   document.getElementById('ml-cat').value = '';
   document.getElementById('ml-error').classList.remove('active');
   currentMLProduct = null;
+}
+
+function useManualData() {
+  const link = document.getElementById('ml-link-input').value.trim();
+  const titulo = document.getElementById('man-title').value.trim();
+  const precio = Number(document.getElementById('man-price').value) || 0;
+  const precioOriginal = Number(document.getElementById('man-orig').value) || precio;
+  const imagen = document.getElementById('man-img').value.trim();
+  
+  if(!titulo || !precio || !imagen) return alert('Completá título, precio final y link de imagen.');
+
+  const descuento = precioOriginal > precio ? Math.round(((precioOriginal - precio) / precioOriginal) * 100) : 0;
+  
+  let itemIdMatch = link.match(/MLA-?(\d+)/i);
+  let itemId = itemIdMatch ? `MLA${itemIdMatch[1]}` : `MANUAL-${Date.now()}`;
+
+  currentMLProduct = {
+    success: true,
+    itemId,
+    titulo,
+    precio,
+    precioOriginal,
+    descuento,
+    imagen,
+    link,
+    condicion: 'new',
+    vendidos: 0,
+    envioGratis: false,
+    categoria: ''
+  };
+
+  document.getElementById('ml-error').classList.remove('active');
+  document.getElementById('ml-manual').style.display = 'none';
+
+  document.getElementById('ml-preview-img').src = imagen;
+  document.getElementById('ml-preview-title').textContent = titulo;
+  document.getElementById('ml-preview-current').textContent = `$${precio.toLocaleString('es-AR')}`;
+  document.getElementById('ml-preview-original').textContent = `$${precioOriginal.toLocaleString('es-AR')}`;
+  document.getElementById('ml-preview-discount').textContent = descuento > 0 ? `-${descuento}%` : '';
+  document.getElementById('ml-preview-meta').textContent = `Carga Manual · ${itemId}`;
+
+  document.getElementById('ml-preview').classList.add('active');
 }
 
 function agregarProductoAlGrid(p) {
