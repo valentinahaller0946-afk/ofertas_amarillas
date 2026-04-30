@@ -986,10 +986,10 @@ function renderHeroCards(productos) {
     card.rel = 'noopener';
     card.className = 'hero-mini';
     card.innerHTML = `
-      <img src="\${p.imagen}" class="hero-mini-img" alt="\${p.titulo}">
-      <div class="disc">-\${p.descuento}%</div>
-      <div class="nm">\${p.titulo}</div>
-      <div class="pr">$\${p.precio.toLocaleString('es-AR')}</div>
+      <img src="${p.imagen}" class="hero-mini-img" alt="${p.titulo}">
+      <div class="disc">-${p.descuento}%</div>
+      <div class="nm">${p.titulo}</div>
+      <div class="pr">$${p.precio.toLocaleString('es-AR')}</div>
     `;
     container.appendChild(card);
   });
