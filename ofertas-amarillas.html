@@ -396,7 +396,7 @@ body{font-family:var(--font);background:var(--bg);color:#111;-webkit-font-smooth
         <a href="#como-funciona">¿Cómo funciona?</a>
         <a href="https://www.instagram.com/ofertasamarillas.ar/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://whatsapp.com/channel/0029VbCzp9R4yltP4k9Ylw1f" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="#" onclick="openAdminModal(event)" style="color:#555">⚙ Admin</a>
+        <a href="javascript:void(0)" onclick="openAdminModal()" style="color:#555">⚙ Admin</a>
       </div>
     </div>
     <p class="footer-disclaimer">
@@ -536,8 +536,7 @@ document.getElementById('search-input').addEventListener('input', function() {
 });
 
 // ── Admin Modal ──
-function openAdminModal(e) {
-  if(e) e.preventDefault();
+function openAdminModal() {
   if(sessionStorage.getItem('adminToken')) { showAdmin(); return; }
   document.getElementById('admin-modal').classList.add('active');
   setTimeout(() => document.getElementById('modal-pw').focus(), 200);
