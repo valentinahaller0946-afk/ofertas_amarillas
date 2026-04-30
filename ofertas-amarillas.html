@@ -603,7 +603,7 @@ async function fetchMLProduct() {
   currentMLProduct = null;
 
   if (!link) { showError('Pegá un link de MercadoLibre'); return; }
-  if (!/mercadolibre/i.test(link)) { showError('El link debe ser de MercadoLibre'); return; }
+  if (!/(mercadolibre|meli\.la)/i.test(link)) { showError('El link debe ser de MercadoLibre o meli.la'); return; }
 
   loading.style.display = 'block';
   fetchBtn.disabled = true;

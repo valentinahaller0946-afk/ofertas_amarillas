@@ -65,12 +65,24 @@ app.post('/api/producto', async (req, res) => {
   const { link } = req.body;
   if (!link) return res.status(400).json({ error: 'Falta el link' });
 
-  if (!/mercadolibre/i.test(link)) {
-    return res.status(400).json({ error: 'El link debe ser de MercadoLibre' });
+  if (!/(mercadolibre|meli\.la)/i.test(link)) {
+    return res.status(400).json({ error: 'El link debe ser de MercadoLibre o meli.la' });
   }
 
-  const itemId = extractId(link);
-  if (!itemId) return res.status(400).json({ error: 'No se pudo extraer el ID del producto' });
+  let itemId = extractId(link);
+  let finalLink = link;
+
+  if (!itemId) {
+    try {
+      const redirectRes = await fetch(link, { redirect: 'follow' });
+      finalLink = redirectRes.url;
+      itemId = extractId(finalLink);
+    } catch (e) {
+      console.error("Error resolviendo redirect:", e);
+    }
+  }
+
+  if (!itemId) return res.status(400).json({ error: 'No se pudo extraer el ID del producto. Verificá que el link sea correcto.' });
 
   try {
     const mlRes = await fetch(`https://api.mercadolibre.com/items/${itemId}`, {
@@ -101,7 +113,7 @@ app.post('/api/producto', async (req, res) => {
       precioOriginal,
       descuento,
       imagen: imagen.replace(/\-I\.jpg$/, '-O.jpg'), // imagen más grande
-      link: data.permalink || link,
+      link: data.permalink || finalLink,
       condicion: data.condition,
       vendidos: data.sold_quantity || 0,
       envioGratis: data.shipping?.free_shipping || false,
