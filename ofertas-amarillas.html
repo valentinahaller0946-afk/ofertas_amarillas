@@ -832,7 +832,7 @@ async function verificarProducto(p, grid) {
         <span class="verif-new-price">$${precioNew.toLocaleString('es-AR')}</span>
       </div>
       <div class="verif-item-actions">
-        <button class="verif-btn verif-btn-actualizar" onclick="actualizarProducto('${p.link}', ${JSON.stringify({precioActual: precioNew, nuevoDescuento: Math.round(100 - (precioNew * 100 / (data.original_price || precioNew))))})})">Actualizar</button>
+        <button class="verif-btn verif-btn-actualizar" onclick="actualizarProducto('${p.link}', ${JSON.stringify({precioActual: precioNew, nuevoDescuento: Math.round(100 - (precioNew * 100 / (data.original_price || precioNew)))})})">Actualizar</button>
         <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto('${p.link}')">Eliminar</button>
       </div>
     `;
