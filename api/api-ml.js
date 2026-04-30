@@ -72,17 +72,31 @@ app.post('/api/producto', async (req, res) => {
   let itemId = extractId(link);
   let finalLink = link;
 
+  let redirectError = '';
   if (!itemId) {
     try {
-      const redirectRes = await fetch(link, { redirect: 'follow' });
+      const headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' };
+      const redirectRes = await fetch(link, { headers, redirect: 'follow' });
       finalLink = redirectRes.url;
       itemId = extractId(finalLink);
+      
+      // Si aún no hay ID (ej: link a social clip), buscar en el HTML
+      if (!itemId) {
+        const html = await redirectRes.text();
+        const match = html.match(/MLA-?(\d+)/i);
+        if (match) {
+          itemId = `MLA${match[1]}`;
+        } else {
+          redirectError = ' No se encontró MLA en HTML.';
+        }
+      }
     } catch (e) {
+      redirectError = ` Excepción: ${e.message}`;
       console.error("Error resolviendo redirect:", e);
     }
   }
 
-  if (!itemId) return res.status(400).json({ error: 'No se pudo extraer el ID del producto. Verificá que el link sea correcto.' });
+  if (!itemId) return res.status(400).json({ error: `No se pudo extraer el ID del producto. Verificá que el link sea correcto.${redirectError}` });
 
   try {
     const mlRes = await fetch(`https://api.mercadolibre.com/items/${itemId}`, {
