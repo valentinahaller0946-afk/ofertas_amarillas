@@ -176,7 +176,8 @@ app.delete('/api/producto/:itemId', async (req, res) => {
 
   try {
     let productos = await getProductos();
-    productos = productos.filter(p => p.itemId !== req.params.itemId);
+    const idOrLink = req.params.itemId;
+    productos = productos.filter(p => p.itemId !== idOrLink && p.link !== idOrLink);
     await saveProductos(productos);
     res.json({ success: true });
   } catch (err) {

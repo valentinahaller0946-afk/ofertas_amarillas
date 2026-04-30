@@ -849,7 +849,24 @@ async function verificarProductoSilent(itemId) {
 
 async function verificarProducto(p, grid) {
   const itemId = p.itemId || extractMLId(p.link);
-  if (!itemId) return;
+  if (!itemId) {
+    const item = document.createElement('div');
+    item.className = 'verif-item';
+    item.innerHTML = `
+      <div class="verif-item-header">
+        <div class="verif-item-title">${p.titulo}</div>
+        <span class="verif-status offline">Manual/Sin ID</span>
+      </div>
+      <div class="verif-item-prices">
+        <span class="verif-old-price">$${p.precio.toLocaleString('es-AR')}</span>
+      </div>
+      <div class="verif-item-actions">
+        <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto(encodeURIComponent('${p.link}'))">Eliminar</button>
+      </div>
+    `;
+    grid.appendChild(item);
+    return;
+  }
   try {
     const res = await fetch(`${API_URL}/verificar/${itemId}`);
     
@@ -866,7 +883,7 @@ async function verificarProducto(p, grid) {
           <span class="verif-old-price">$${p.precio.toLocaleString('es-AR')}</span>
         </div>
         <div class="verif-item-actions">
-          <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto('${p.link}')">Eliminar</button>
+          <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto(encodeURIComponent('${itemId}'))">Eliminar</button>
         </div>
       `;
       grid.appendChild(item);
@@ -904,7 +921,7 @@ async function verificarProducto(p, grid) {
       </div>
       <div class="verif-item-actions">
         <button class="verif-btn verif-btn-actualizar" onclick="actualizarProducto('${p.link}', ${JSON.stringify({precioActual: precioNew, nuevoDescuento: Math.round(100 - (precioNew * 100 / (data.original_price || precioNew)))})})">Actualizar</button>
-        <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto('${p.link}')">Eliminar</button>
+        <button class="verif-btn verif-btn-eliminar" onclick="eliminarProducto(encodeURIComponent('${itemId}'))">Eliminar</button>
       </div>
     `;
     
